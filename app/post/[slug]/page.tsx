@@ -3,13 +3,14 @@ import Link from "next/link";
 import React from "react";
 import { FaArrowDown, FaArrowUp, FaRegComment } from "react-icons/fa";
 import { BsThreeDots } from "react-icons/bs";
+import CommentSection from "./_components/CommentSection";
 
 const PostPage = () => {
   const post = posts[1];
 
   return (
-    <div>
-      <section className="flex flex-col w-[60%] rounded-lg mx-auto h-full min-h-[90vh] max-h-[90vh]">
+    <div className="h-full min-h-[90vh] max-h-[90vh]">
+      <section className="flex flex-col w-[60%] rounded-lg mx-auto">
         <div className="flex justify-between w-full mt-6">
           <div className="flex">
             <div className="flex flex-col">
@@ -46,6 +47,7 @@ const PostPage = () => {
           </button>
         </div>
       </section>
+      <CommentSection />
     </div>
   );
 };
