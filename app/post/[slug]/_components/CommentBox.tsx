@@ -13,7 +13,7 @@ const CommentBox = () => {
   };
 
   return (
-    <div className="w-[60%] mx-auto mt-4">
+    <div className="mt-4 border-b border-mutedmidgray pb-4">
       {!open ? (
         <button
           className="flex p-2 border border-white/30 hover:border-foreground rounded-full text-sm md:text-base gap-2"
