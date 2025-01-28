@@ -8,7 +8,7 @@ const Post = () => {
   const post = posts[1];
 
   return (
-    <section className="flex flex-col w-[70%] rounded-lg mx-auto">
+    <section className="flex flex-col md:w-[70%] w-[80%] rounded-lg mx-auto">
       <div className="flex justify-between w-full mt-6">
         <div className="flex">
           <div className="flex flex-col">
@@ -28,7 +28,9 @@ const Post = () => {
       </div>
       <div className="flex flex-col gap-2 pt-2">
         <h1 className="text-3xl font-semibold">{post.header}</h1>
-        <h3 className="text-contenttext">{post.content}</h3>
+        <h3 className="text-contenttext text-sm md:text-base">
+          {post.content}
+        </h3>
       </div>
       <div className="flex gap-4">
         <div className="text-xl flex gap-2 rounded-full bg-mutedmidgray w-min px-2 mt-2 py-1">

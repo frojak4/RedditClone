@@ -8,7 +8,7 @@ import SkeletonComment from "@/components/Skeletons/SkeletonComment";
 
 const PostPage = () => {
   return (
-    <div className="h-full min-h-[90vh] max-h-[90vh] overflow-auto flex flex-col w-[80%] mx-auto">
+    <div className="h-full min-h-[90vh] max-h-[90vh] overflow-auto flex flex-col md:w-[80%] mx-auto">
       <Suspense fallback={<SkeletonPost />}>
         <Post />
       </Suspense>

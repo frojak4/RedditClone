@@ -25,28 +25,30 @@ const CommentBox = () => {
           Add a comment
         </button>
       ) : (
-        <div className="flex gap-3">
+        <div className="flex md:flex-row flex-col gap-3">
           <textarea
             className="flex-1 p-3 text-sm border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-midpurp focus:border-midpurp resize-none text-mylighterblack"
             rows={2}
             maxLength={50}
             minLength={50}
           />
-          <button
-            className="flex p-2 border border-white/30 hover:border-foreground h-min rounded-full text-sm md:text-base gap-2"
-            onClick={handleButtonOpen}
-          >
-            <span className="mt-1">
-              <FaX />
-            </span>
-            Cancel
-          </button>
-          <button className="bg-lightestpurp/70 hover:bg-lightestpurp h-min px-4 py-2 text-sm md:text-base rounded-full flex gap-2">
-            <span className="mt-1">
-              <FaPlus />
-            </span>
-            Post
-          </button>
+          <div className="flex gap-2">
+            <button
+              className="flex p-2 border border-white/30 hover:border-foreground h-min rounded-full text-sm md:text-base gap-2"
+              onClick={handleButtonOpen}
+            >
+              <span className="mt-1">
+                <FaX />
+              </span>
+              Cancel
+            </button>
+            <button className="bg-lightestpurp/70 hover:bg-lightestpurp h-min px-4 py-2 text-sm md:text-base rounded-full flex gap-2">
+              <span className="mt-1">
+                <FaPlus />
+              </span>
+              Post
+            </button>
+          </div>
         </div>
       )}
     </div>

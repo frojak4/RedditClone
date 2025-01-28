@@ -4,7 +4,7 @@ import FilterSelect from "@/components/FilterSelect";
 
 const CommentSection = () => {
   return (
-    <section className="flex flex-col w-[70%] mx-auto">
+    <section className="flex flex-col md:w-[70%] w-[80%] mx-auto">
       <CommentBox />
 
       <FilterSelect />
