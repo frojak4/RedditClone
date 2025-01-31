@@ -21,7 +21,7 @@ const SignInPage = () => {
         <h3 className="text-secondarytext pt-4">Password: </h3>
         <input
           type="password"
-          name="username"
+          name="password"
           className="p-1 rounded-lg bg-mutedmidgray text-contenttext"
         />
         <h4 className="text-red-600 w-full">{data?.errors?.password}</h4>

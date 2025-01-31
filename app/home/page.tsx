@@ -1,3 +1,4 @@
+import FilterSelect from "@/components/FilterSelect";
 import PostInList from "@/components/PostInList";
 import React from "react";
 
@@ -86,6 +87,9 @@ const HomePage = () => {
   return (
     <div className="overflow-auto h-full max-h-[90vh] w-full">
       <div className="flex flex-col gap-2 overflow-auto pt-2">
+        <div className="w-[90%] mx-auto">
+          <FilterSelect />
+        </div>
         {posts.map((post, i) => {
           return <PostInList key={i} post={post} />;
         })}

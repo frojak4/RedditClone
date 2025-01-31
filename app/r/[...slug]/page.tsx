@@ -34,7 +34,7 @@ const SubPage = async ({ params }) => {
         </div>
       </section>
       <div className="w-[90%] mx-auto">
-        <FilterSelect slug={slug} />
+        <FilterSelect />
       </div>
       <Suspense fallback={<SkeletonPosts />}>
         <Posts />
