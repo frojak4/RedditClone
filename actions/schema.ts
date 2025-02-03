@@ -9,6 +9,7 @@ export const CreatePostSchema = z.object({
     .string()
     .min(12, { message: "Post must be at least 12 characters long" })
     .max(400, { message: "Post cannot be longer than 200 characters long" }),
+  community: z.string(),
 });
 
 export const CommentSchema = z.object({

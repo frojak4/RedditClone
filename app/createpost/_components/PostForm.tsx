@@ -13,6 +13,7 @@ const PostForm = ({ sub }: { sub: string }) => {
       <div className="flex md:justify-between justify-center md:flex-row flex-col">
         <div className="p-4 flex-1">
           <h3 className="text-secondarytext">Title: </h3>
+          <input name="community" type="hidden" value={sub} />
           <input
             name="title"
             className=" w-full rounded-md text-contenttext bg-mutedmidgray p-1"

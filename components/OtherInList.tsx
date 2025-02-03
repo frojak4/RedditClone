@@ -3,17 +3,14 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React from "react";
 
-type CommunityInListProps = {
-  name: string;
-};
-
-const CommunityInList = ({ name }: CommunityInListProps) => {
+const OtherInList = ({ name }: { name: string }) => {
   const pathname = usePathname();
+  console.log(pathname);
 
   return (
-    <Link href={"/r/" + name}>
+    <Link href={`/${name}`}>
       <button
-        disabled={pathname === "/r/" + name}
+        disabled={pathname === `/${name}`}
         className="px-4 py-2 text-lg self-start disabled:bg-mylighterblack rounded-lg w-full hover:bg-mutedmidgray"
       >
         {name}
@@ -22,4 +19,4 @@ const CommunityInList = ({ name }: CommunityInListProps) => {
   );
 };
 
-export default CommunityInList;
+export default OtherInList;

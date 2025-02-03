@@ -6,6 +6,7 @@ import Posts from "./_components/Posts";
 import SkeletonPosts from "./_components/SkeletonPosts";
 import FilterSelect from "../../../components/FilterSelect";
 import Link from "next/link";
+import CommunityButton from "./_components/CommunityButton";
 
 const SubPage = async ({ params }) => {
   const { slug } = await params;
@@ -27,9 +28,7 @@ const SubPage = async ({ params }) => {
                 Create Post
               </button>
             </Link>
-            <button className="bg-lightestpurp/70 hover:bg-lightestpurp px-4 py-2 text-sm md:text-base rounded-full">
-              Join
-            </button>
+            <CommunityButton sub={page} />
           </div>
         </div>
       </section>
