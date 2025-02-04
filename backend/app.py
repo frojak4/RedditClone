@@ -1,7 +1,8 @@
 from flask import Flask, jsonify, request
 from flask_restful import Api, Resource, abort
 from flask_sqlalchemy import SQLAlchemy
-from models import db, User, Community, Membership, Post
+from sqlalchemy import func, case
+from models import db, User, Community, Membership, Post, Vote
 from flask_jwt_extended import JWTManager, create_access_token, jwt_required, get_jwt_identity
 from datetime import timedelta
 from flask_cors import CORS
@@ -94,7 +95,17 @@ class CreateCommunity(Resource):
 
 
  
-class JoinCommunity(Resource):
+class HandleMembership(Resource):
+    @jwt_required()
+    def get(self, community_name):
+        user_id = get_jwt_identity()
+
+        community = Community.query.filter_by(name=community_name).first()
+        
+        membership = Membership.query.filter_by(user_id=user_id, community_id=community.id).first()
+
+        return {"is_member": bool(membership)}, 200
+
     @jwt_required()
     def post(self, community_name):
         user_id = get_jwt_identity()
@@ -107,9 +118,8 @@ class JoinCommunity(Resource):
 
         return {"data": "success"}
 
-class LeaveCommunity(Resource):
     @jwt_required()
-    def post(self, community_name):
+    def delete(self, community_name):
         user_id = get_jwt_identity()
 
         print('hallo')
@@ -121,18 +131,7 @@ class LeaveCommunity(Resource):
 
         return {"data": "success"}
 
-    
 
-class CheckMembership(Resource):
-    @jwt_required()
-    def get(self, community_name):
-        user_id = get_jwt_identity()
-
-        community = Community.query.filter_by(name=community_name).first()
-        
-        membership = Membership.query.filter_by(user_id=user_id, community_id=community.id).first()
-
-        return {"is_member": bool(membership)}, 200
 
 
 class GetCommunities(Resource):
@@ -171,11 +170,43 @@ class CreatePost(Resource):
 
         return {"success": True, "uuid": random_uuid}
 
+class GetPost(Resource):
+    def get(self, postUUID):
+        post = db.session.query(Post, User.username, Community.name).join(User, Post.user_id == User.id).join(Community, Post.community_id == Community.id).filter(Post.uuid == postUUID).first()
+    
+
+        if not post:
+            abort(404, error='Post not found')
+        
+        post_data, username, community_name = post
+
+        votes_query = post_data.votes
+        comments_query = post_data.comments
+
+        upvotes = votes_query.filter_by(type='up').all()
+        downvotes = votes_query.filter_by(type='down').all()
+        votes = len(upvotes) - len(downvotes)
+
+        comments = comments_query.count()
+
+        
+        
+        
+        return {"title": post_data.title, "created_at": post_data.created_at.isoformat(), "content": post_data.content, "username": username, "community": community_name, "votes": votes, "comments": comments}, 200
 
 
 
 
 
+class GetPosts(Resource):
+    def get(self, community_name):
+        community = Community.query.filter_by(name=community_name).first()
+
+        posts = db.session.query(Post, User.username).join(User, Post.user_id == User.id).filter(Post.community_id==community.id).all()
+
+        
+
+        return [{"title": p[0].title, "created_at": p[0].created_at.isoformat(), "content": p[0].content, "username": p[1], "community": community_name} for p in posts]
         
 
     
@@ -184,11 +215,11 @@ api.add_resource(Register, '/auth/register')
 api.add_resource(GetUsername, '/getusername')
 
 api.add_resource(CreateCommunity, '/createcommunity')
-api.add_resource(JoinCommunity, '/joincommunity/<string:community_name>')
-api.add_resource(LeaveCommunity, '/leavecommunity/<string:community_name>')
-api.add_resource(CheckMembership, '/checkmembership/<string:community_name>')
+api.add_resource(HandleMembership, '/handlemembership/<string:community_name>')
 api.add_resource(GetCommunities, '/getcommunities')
 api.add_resource(CreatePost, '/createpost')
+api.add_resource(GetPost, '/getpost/<string:postUUID>')
+api.add_resource(GetPosts, '/getposts/<string:community_name>')
 
 if __name__ == '__main__':
     app.run(debug=True)

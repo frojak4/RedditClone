@@ -10,7 +10,7 @@ const OtherInList = ({ name }: { name: string }) => {
   return (
     <Link href={`/${name}`}>
       <button
-        disabled={pathname === `/${name}`}
+        disabled={pathname === `${name}`}
         className="px-4 py-2 text-lg self-start disabled:bg-mylighterblack rounded-lg w-full hover:bg-mutedmidgray"
       >
         {name}

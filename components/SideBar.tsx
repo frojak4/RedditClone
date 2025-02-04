@@ -28,7 +28,7 @@ const SideBar = async () => {
 
   const jsondata = await data.json();
 
-  const communities: CommunityType[] = [];
+  const communities: CommunityType[] = jsondata.data[0];
 
   return (
     <div className="hidden md:flex flex-col justify-between w-[20vw] max-w-[20vw] min-w-[20vw] pt-8  border-r border-mutedmidgray">

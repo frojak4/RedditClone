@@ -9,12 +9,15 @@ const CommunityButton = async ({ sub }: { sub: string }) => {
     return;
   }
 
-  const response = await fetch(`http://127.0.0.1:5000/checkmembership/${sub}`, {
-    method: "get",
-    headers: {
-      Authorization: `Bearer ${token.value}`,
-    },
-  });
+  const response = await fetch(
+    `http://127.0.0.1:5000/handlemembership/${sub}`,
+    {
+      method: "get",
+      headers: {
+        Authorization: `Bearer ${token.value}`,
+      },
+    }
+  );
 
   const { is_member } = await response.json();
 

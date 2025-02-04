@@ -1,6 +1,7 @@
 from flask_sqlalchemy import SQLAlchemy
 import enum
 import bcrypt
+from datetime import datetime
 
 db = SQLAlchemy()
 
@@ -39,6 +40,27 @@ class Post(db.Model):
     content = db.Column(db.Text, nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     community_id = db.Column(db.Integer, db.ForeignKey('community.id'), nullable=False)
+    created_at = db.Column(db.DateTime, default=datetime.utcnow())
+    votes = db.relationship('Vote', backref='post', lazy='dynamic')
+    comments = db.relationship('Comment', backref='post', lazy='dynamic')
+
+
+class VoteTypes(enum.Enum):
+    up = "up"
+    down = "down"
+
+class Vote(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    post_id = db.Column(db.Integer, db.ForeignKey('post.id'), nullable=False)
+    type = db.Column(db.Enum(VoteTypes), nullable=False)
+
+class Comment(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    content = db.Column(db.String, nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    post_id = db.Column(db.Integer, db.ForeignKey('post.id'), nullable=False)
+    created_at = db.Column(db.DateTime)
     
 
 

@@ -76,7 +76,7 @@ export const JoinCommunity = async (formData: FormData) => {
   const community = formData.get("community");
 
   const response = await fetch(
-    `http://127.0.0.1:5000/joincommunity/${community}`,
+    `http://127.0.0.1:5000/handlemembership/${community}`,
     {
       method: "post",
       headers: {
@@ -99,9 +99,9 @@ export const LeaveCommunity = async (formData: FormData) => {
   const community = formData.get("community");
 
   const response = await fetch(
-    `http://127.0.0.1:5000/leavecommunity/${community}`,
+    `http://127.0.0.1:5000/handlemembership/${community}`,
     {
-      method: "post",
+      method: "delete",
       headers: {
         Authorization: `Bearer ${token.value}`,
         "Content-Type": "application/json",
