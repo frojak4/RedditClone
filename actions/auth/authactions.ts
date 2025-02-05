@@ -39,8 +39,14 @@ export const SignUpAction = async (
       },
     };
   }
+
+  const expires = new Date(Date.now() + 1 * 60 * 60 * 1000);
   const cookieStore = await cookies();
-  cookieStore.set("access_token", data.access_token);
+  console.log(expires);
+  cookieStore.set("access_token", data.access_token, {
+    expires,
+    httpOnly: true,
+  });
   redirect("/home");
 };
 
@@ -80,8 +86,13 @@ export const SignInAction = async (
     };
   }
   const cookieStore = await cookies();
+  const expires = new Date(Date.now() + 1 * 60 * 60 * 1000);
+  console.log(expires);
 
-  cookieStore.set("access_token", data.access_token);
+  cookieStore.set("access_token", data.access_token, {
+    expires,
+    httpOnly: true,
+  });
   redirect("/home");
 };
 

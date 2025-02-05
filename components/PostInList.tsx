@@ -3,7 +3,7 @@ import Link from "next/link";
 import React from "react";
 import { FaArrowUp, FaArrowDown, FaRegComment } from "react-icons/fa";
 
-const PostInList = ({ post }: { post: Post }) => {
+const PostInList = ({ post }) => {
   return (
     <div className="rounded-xl bg-mylighterblack p-4 w-[90%] mx-auto">
       <div className="flex ">
@@ -13,8 +13,8 @@ const PostInList = ({ post }: { post: Post }) => {
 
         <h3>• {post.created_at}</h3>
       </div>
-      <Link href={"/post/12"}>
-        <h4 className="font-bold pt-2">{post.header}</h4>
+      <Link href={`/post/${post.uuid}`}>
+        <h4 className="font-bold pt-2">{post.title}</h4>
         <h4 className="line-clamp-3">{post.content}</h4>
       </Link>
       <div className="flex gap-4">
@@ -22,7 +22,7 @@ const PostInList = ({ post }: { post: Post }) => {
           <button className="hover:text-lightpurp">
             <FaArrowUp />
           </button>
-          <h3 className="text-base">{post.upvotes}</h3>
+          <h3 className="text-base">13</h3>
           <button className="hover:text-lightpurp">
             <FaArrowDown />
           </button>

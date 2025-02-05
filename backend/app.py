@@ -204,9 +204,8 @@ class GetPosts(Resource):
 
         posts = db.session.query(Post, User.username).join(User, Post.user_id == User.id).filter(Post.community_id==community.id).all()
 
-        
 
-        return [{"title": p[0].title, "created_at": p[0].created_at.isoformat(), "content": p[0].content, "username": p[1], "community": community_name} for p in posts]
+        return [{"title": p[0].title, "id": p[0].id, "uuid": p[0].uuid, "created_at": p[0].created_at.isoformat(), "content": p[0].content, "username": p[1], "community": community_name} for p in posts]
         
 
     

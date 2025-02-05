@@ -15,7 +15,7 @@ const SubPage = async ({ params }) => {
   const sortBy = slug[1];
 
   return (
-    <div className="overflow-auto h-full max-h-[90vh] w-full">
+    <div className="overflow-auto h-full min-h-[90vh] max-h-[90vh] w-full">
       <section className="py-12">
         <div className="flex justify-between px-12 md:px-40">
           <h1 className="md:text-3xl text-2xl">r/{slug[0]}</h1>
@@ -36,7 +36,7 @@ const SubPage = async ({ params }) => {
         <FilterSelect />
       </div>
       <Suspense fallback={<SkeletonPosts />}>
-        <Posts />
+        <Posts sub={page} />
       </Suspense>
     </div>
   );

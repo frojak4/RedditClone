@@ -16,7 +16,7 @@ const SideBar = async () => {
   const token = await GetToken();
 
   if (!token) {
-    return <div></div>;
+    return null;
   }
 
   const data = await fetch(`http://127.0.0.1:5000/getcommunities`, {
