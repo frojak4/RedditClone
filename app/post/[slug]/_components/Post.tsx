@@ -1,4 +1,5 @@
 import { posts } from "@/app/lib/FakePosts";
+import Upvotebutton from "@/components/UpvoteButton/Upvotebutton";
 import { PostType } from "@/Types";
 import Link from "next/link";
 import { redirect } from "next/navigation";
@@ -46,15 +47,7 @@ const Post = async ({ uuid }: { uuid: string }) => {
         </h3>
       </div>
       <div className="flex gap-4">
-        <div className="text-xl flex gap-2 rounded-full bg-mutedmidgray w-min px-2 mt-2 py-1">
-          <button className="hover:text-lightpurp">
-            <FaArrowUp />
-          </button>
-          <h3 className="text-base">{post.votes}</h3>
-          <button className="hover:text-lightpurp">
-            <FaArrowDown />
-          </button>
-        </div>
+        <Upvotebutton id={post.id} />
         <button className="bg-mutedmidgray gap-2 flex px-2 py-1 w-min rounded-full mt-2 text-xl hover:bg-mutedmidgray/70">
           <span className="text-base">{post.comments}</span> <FaRegComment />
         </button>

@@ -111,3 +111,42 @@ export const LeaveCommunity = async (formData: FormData) => {
 
   revalidatePath("/r");
 };
+
+export const UpvotePost = async (formData: FormData) => {
+  const id = formData.get("id") as string;
+  const type = formData.get("type") as string;
+
+  const token = await GetToken();
+
+  if (!token) {
+    return;
+  }
+
+  const response = await fetch(`http://127.0.0.1:5000/uservote/${id}/${type}`, {
+    method: "post",
+    headers: {
+      Authorization: `Bearer ${token?.value}`,
+      "Content-Type": "application/json",
+    },
+  });
+
+  return;
+};
+
+export const RemoveVote = async (formData: FormData) => {
+  const id = formData.get("id");
+
+  const token = await GetToken();
+
+  if (!token) {
+    return;
+  }
+
+  const response = await fetch(`http://127.0.0.1:5000/uservote/${id}`, {
+    method: "delete",
+    headers: {
+      Authorization: `Bearer ${token?.value}`,
+      "Content-Type": "application/json",
+    },
+  });
+};

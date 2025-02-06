@@ -186,13 +186,10 @@ class GetPost(Resource):
         upvotes = votes_query.filter_by(type='up').all()
         downvotes = votes_query.filter_by(type='down').all()
         votes = len(upvotes) - len(downvotes)
-
         comments = comments_query.count()
-
         
         
-        
-        return {"title": post_data.title, "created_at": post_data.created_at.isoformat(), "content": post_data.content, "username": username, "community": community_name, "votes": votes, "comments": comments}, 200
+        return {"title": post_data.title, "id": post_data.id, "created_at": post_data.created_at.isoformat(), "content": post_data.content, "username": username, "community": community_name, "votes": votes, "comments": comments}, 200
 
 
 
@@ -208,6 +205,41 @@ class GetPosts(Resource):
         return [{"title": p[0].title, "id": p[0].id, "uuid": p[0].uuid, "created_at": p[0].created_at.isoformat(), "content": p[0].content, "username": p[1], "community": community_name} for p in posts]
         
 
+class UserVote(Resource):
+    @jwt_required()
+    def get(self, post_id):
+        print('hallo')
+        user_id = get_jwt_identity()
+        
+        upvote = Vote.query.filter(post_id == post_id, user_id == user_id).first()
+        
+        if not upvote:
+            return {"vote": False}
+
+        return {"vote": True, "type": upvote.type}
+    @jwt_required()
+    def post(self, post_id, type):
+        user_id = get_jwt_identity()
+
+        Vote.query.filter_by(user_id=user_id, post_id=post_id).delete()
+
+        new_vote = Vote(user_id=user_id, post_id=post_id, type=type)
+
+        db.session.add(new_vote)
+        db.session.commit()
+        return {"message": "vote successfully added"}
+    @jwt_required()
+    def delete(self, post_id):
+        user_id = get_jwt_identity()
+
+        Vote.query.filter(user_id=user_id, post_id=post_id).delete()
+
+        return {"message": "vote successfully deleted"}
+    
+
+
+
+
     
 api.add_resource(LogIn, '/auth/login')
 api.add_resource(Register, '/auth/register')
@@ -219,6 +251,8 @@ api.add_resource(GetCommunities, '/getcommunities')
 api.add_resource(CreatePost, '/createpost')
 api.add_resource(GetPost, '/getpost/<string:postUUID>')
 api.add_resource(GetPosts, '/getposts/<string:community_name>')
+
+api.add_resource(UserVote, '/uservote/<int:post_id>/<string:type>', '/uservote/<int:post_id>/<string:type>')
 
 if __name__ == '__main__':
     app.run(debug=True)
