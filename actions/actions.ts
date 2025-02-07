@@ -130,6 +130,7 @@ export const UpvotePost = async (formData: FormData) => {
     },
   });
 
+  revalidatePath("/post");
   return;
 };
 
@@ -149,4 +150,5 @@ export const RemoveVote = async (formData: FormData) => {
       "Content-Type": "application/json",
     },
   });
+  revalidatePath("/post");
 };

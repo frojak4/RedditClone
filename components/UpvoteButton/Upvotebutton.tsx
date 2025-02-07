@@ -3,6 +3,8 @@ import React from "react";
 import { FaArrowDown, FaArrowUp } from "react-icons/fa";
 import Disabled from "./Disabled";
 import { UpvotePost } from "@/actions/actions";
+import Upvoted from "./Upvoted";
+import Downvoted from "./Downvoted";
 
 const Upvotebutton = async ({ id }: { id: number }) => {
   const token = await GetToken();
@@ -19,9 +21,13 @@ const Upvotebutton = async ({ id }: { id: number }) => {
     },
   });
 
-  const { data } = await response.json();
+  const data = await response.json();
 
-  console.log(data);
+  if (data.type == "VoteTypes.up") {
+    return <Upvoted id={id} />;
+  } else if (data.type == "VoteTypes.down") {
+    return <Downvoted id={id} />;
+  }
 
   return (
     <div className="text-xl flex gap-2 rounded-full bg-mutedmidgray w-min px-2 mt-2 py-1">

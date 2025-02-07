@@ -216,12 +216,12 @@ class UserVote(Resource):
         if not upvote:
             return {"vote": False}
 
-        return {"vote": True, "type": upvote.type}
+        return {"vote": True, "type": str(upvote.type)}
     @jwt_required()
     def post(self, post_id, type):
         user_id = get_jwt_identity()
 
-        Vote.query.filter_by(user_id=user_id, post_id=post_id).delete()
+        Vote.query.filter(post_id == post_id, user_id == user_id).delete()
 
         new_vote = Vote(user_id=user_id, post_id=post_id, type=type)
 
@@ -230,10 +230,12 @@ class UserVote(Resource):
         return {"message": "vote successfully added"}
     @jwt_required()
     def delete(self, post_id):
+        
         user_id = get_jwt_identity()
-
-        Vote.query.filter(user_id=user_id, post_id=post_id).delete()
-
+        print(post_id)
+        print(user_id)
+        Vote.query.filter(post_id == post_id, user_id == user_id).delete()
+        db.session.commit()
         return {"message": "vote successfully deleted"}
     
 
@@ -252,7 +254,7 @@ api.add_resource(CreatePost, '/createpost')
 api.add_resource(GetPost, '/getpost/<string:postUUID>')
 api.add_resource(GetPosts, '/getposts/<string:community_name>')
 
-api.add_resource(UserVote, '/uservote/<int:post_id>/<string:type>', '/uservote/<int:post_id>/<string:type>')
+api.add_resource(UserVote, '/uservote/<int:post_id>', '/uservote/<int:post_id>/<string:type>')
 
 if __name__ == '__main__':
     app.run(debug=True)
